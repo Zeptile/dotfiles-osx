@@ -1,10 +1,10 @@
-# !/bin/bash
+#!/bin/bash
 
 PLUGIN_DIR="$CONFIG_DIR/plugins"
 ITEM_DIR="$CONFIG_DIR/items"
 
 ##### Colors #####
-source "$CONFIG_DIR/auto_theme.sh"
+SKETCHYBAR_SOURCED=true source "$CONFIG_DIR/auto_theme.sh"
 source "$CONFIG_DIR/colors.sh"
 
 ##### Bar Appearance #####

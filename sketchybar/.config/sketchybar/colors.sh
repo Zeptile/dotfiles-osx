@@ -1,5 +1,6 @@
 #!/bin/bash
 
+CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
 THEME_FILE="$CONFIG_DIR/.theme"
 THEME_DIR="$CONFIG_DIR/themes"
 
