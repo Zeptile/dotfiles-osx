@@ -1,0 +1,51 @@
+#!/bin/bash
+
+THEMES_CONFIG_DIR="$HOME/.config/themes"
+THEMES_DIR="$THEMES_CONFIG_DIR/themes"
+THEME_FILE="$THEMES_CONFIG_DIR/.theme"
+THEME_CONFIG="$THEMES_CONFIG_DIR/theme_config.sh"
+GHOSTTY_CONFIG="$HOME/.config/ghostty/config"
+
+show_usage() {
+  echo "Usage: set_theme <theme_name|auto>"
+  echo "  <theme_name>  - Set a specific theme (disables auto-switching)"
+  echo "  auto          - Re-enable auto theme switching"
+  echo ""
+  echo "Available themes:"
+  ls -1 "$THEMES_DIR" | sed 's/\.sh$//'
+}
+
+if [ -z "$1" ]; then
+  show_usage
+  exit 1
+fi
+
+THEME_NAME="$1"
+
+if [ "$THEME_NAME" = "auto" ]; then
+  sed -i '' 's/AUTO_SWITCH_ENABLED=.*/AUTO_SWITCH_ENABLED=true/' "$THEME_CONFIG"
+  "$HOME/.config/sketchybar/auto_theme.sh"
+  echo "Auto theme switching enabled"
+  exit 0
+fi
+
+if [ ! -f "$THEMES_DIR/$THEME_NAME.sh" ]; then
+  echo "Theme '$THEME_NAME' not found"
+  echo ""
+  show_usage
+  exit 1
+fi
+
+source "$THEMES_DIR/$THEME_NAME.sh"
+
+sed -i '' 's/AUTO_SWITCH_ENABLED=.*/AUTO_SWITCH_ENABLED=false/' "$THEME_CONFIG"
+echo "$THEME_NAME" > "$THEME_FILE"
+
+sketchybar --reload
+
+if [ -n "$GHOSTTY_THEME" ] && [ -f "$GHOSTTY_CONFIG" ]; then
+  sed -i '' "s/^theme = .*/theme = $GHOSTTY_THEME/" "$GHOSTTY_CONFIG"
+  pkill -USR2 ghostty 2>/dev/null || true
+fi
+
+echo "Switched to $THEME_NAME theme"

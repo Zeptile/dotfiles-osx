@@ -1,8 +1,8 @@
 #!/bin/bash
 
-CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
-THEME_FILE="$CONFIG_DIR/.theme"
-THEME_CONFIG="$CONFIG_DIR/theme_config.sh"
+THEMES_CONFIG_DIR="$HOME/.config/themes"
+THEME_FILE="$THEMES_CONFIG_DIR/.theme"
+THEME_CONFIG="$THEMES_CONFIG_DIR/theme_config.sh"
 
 source "$THEME_CONFIG"
 
@@ -14,9 +14,4 @@ else
   NEW_THEME="$DARK_THEME"
 fi
 
-sed -i '' 's/AUTO_SWITCH_ENABLED=.*/AUTO_SWITCH_ENABLED=false/' "$THEME_CONFIG"
-echo "$NEW_THEME" >"$THEME_FILE"
-sketchybar --reload
-
-echo "Switched to $NEW_THEME theme (auto-switching disabled)"
-
+"$HOME/.local/bin/set_theme" "$NEW_THEME"
