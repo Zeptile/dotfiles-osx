@@ -48,4 +48,9 @@ if [ -n "$GHOSTTY_THEME" ] && [ -f "$GHOSTTY_CONFIG" ]; then
   pkill -USR2 ghostty 2>/dev/null || true
 fi
 
+# Reload window borders so they pick up the new theme's colors/width
+if [ -f "$HOME/.config/aerospace/reload_borders.sh" ]; then
+  "$HOME/.config/aerospace/reload_borders.sh" >/dev/null 2>&1 &
+fi
+
 echo "Switched to $THEME_NAME theme"

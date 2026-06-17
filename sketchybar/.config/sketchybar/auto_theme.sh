@@ -32,4 +32,8 @@ if [ "$CURRENT_THEME" != "$DESIRED_THEME" ]; then
   if [ "$SKETCHYBAR_SOURCED" != "true" ]; then
     sketchybar --reload
   fi
+
+  if [ -f "$HOME/.config/aerospace/reload_borders.sh" ]; then
+    "$HOME/.config/aerospace/reload_borders.sh" >/dev/null 2>&1 &
+  fi
 fi
